@@ -1,0 +1,55 @@
+1. after having creatind the direcotry, initalize it as a new npm package by typing npm init -y. This will create a new package.json 
+file and help keep track of different things about the backend of the project.
+
+2. next, install the express package(npm package used to build the server/backend) : npm install express
+
+3. create a folder called src to store all the source code. create a server.js where all the server code would be written. Before
+writing the server code, set up this project to be able to use modern js syntax like export and import. do that by going to the 
+package.json file and add a single property to that : "type" : "module",
+
+4. inside server.js
+//calls the express as a function which will create a new express app
+const app = express();
+//now we have the app object and can define different end points and what we want our server to do when one of those endpoints
+//receives a request
+
+//type of request is get: will take the path and a callback that gets called whenever this end[oin] receives a request
+//the callbacks takes 2 arguements, the first one is a request object which contains detials about the request received
+//the second one is a response object which we can use to send a response back to whoever sent the request
+
+5. get request: load information from the server
+   post request : used to create some new resource on the server
+   put request : updates data on the server 
+   post and put requests have the ability to carry information in something called a requst body/request payload.
+
+6. include some payload by going in the body tag and selecting raw and select JSON from the dropdown. So will be sending a request that 
+contains JSON data to the server. When sending the info, you want to get access to the info inside the request using req.body. This wont
+work yet and return undefined in the terminal. in order for the body property to work correctly in express application, we have to add
+a little piece of what;s called a middleware to our app. middleware is basiclly exrtra functionality that our server will automatically
+execute. 
+
+//endpoint that takes in the name to greet as a url parameter
+app.get('/hello/:name', (req, res)=>{
+    // const name = req.params.name 
+    // or use object destructuring
+    const {name} = req.params;
+    res.send(`Hello, ${name}!!`);
+
+})
+
+7. the npm package nodemon can be used to solve the problem of manually restarting the server everytime a change is made to be tested. 
+use: npm install nodemon --save-dev (dev dependency : since this is a package necessary only for development while testing adn not for production)
+Then run the server using: npx nodemon src/server.js. This will continuously run the server and any change would be updated and reflected
+When a server restarts it loses the memory stored in memory and therefore it is necessary to store the data in a db.
+the command can be changed by changing the scripts dependencyin the package json file. use : npm run dev. dont need npx in a package.json script
+
+8. Create a new folder where the default mongo db files are gonna live. start the mongo demon after installing mongodb
+ using: mongod --dbpath ./mongo-db-data/
+
+
+
+//preparing an app for release
+1) build our frontend and have it hosted by the backend. Run npm run build in the frontend direcotry. it will take all the developer
+friendly code and turn it into browser friendly code in build folder. Move the build folder into the backend so the node server can
+be the one that serves all the files. 
+tell express to use that folder to use as the serve folder. 
